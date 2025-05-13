@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ballerina Middleware Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      border: 1px solid #ccc;
+      max-width: 500px;
+    }
+    .spinner {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid #ccc;
+      border-top: 3px solid #000;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+<h2>Enter your full name:</h2>
+
+<input type="text" id="fullNameInput" placeholder="e.g. Alice Doe" />
+<button onclick="sendRequest()">Send to Ballerina</button>
+<span id="loading" class="spinner" style="display:none;"></span>
+
+<h3>Response from Ballerina Middleware:</h3>
+<pre id="responseOutput">Waiting for input...</pre>
+
+<h3>Raw Response from Java Backend (via Ballerina):</h3>
+<pre id="rawBackendOutput">Waiting...</pre>
+
+<script>
+function sendRequest() {
+  const fullName = document.getElementById("fullNameInput").value.trim();
+  const output = document.getElementById("responseOutput");
+  const rawOutput = document.getElementById("rawBackendOutput");
+  const spinner = document.getElementById("loading");
+
+  if (!fullName) {
+    output.textContent = "Please enter a full name.";
+    rawOutput.textContent = "Waiting...";
+    return;
+  }
+
+  output.textContent = "Sending...";
+  rawOutput.textContent = "Waiting...";
+  spinner.style.display = "inline-block";
+
+  fetch("http://localhost:8080/api/transform", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ fullName })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error("Failed to reach Ballerina service");
+    return res.json();
+  })
+  .then(data => {
+    spinner.style.display = "none";
+    output.textContent = JSON.stringify(data, null, 2);
+    rawOutput.textContent = JSON.stringify({ greeting: data.msg }, null, 2);
+  })
+  .catch(err => {
+    spinner.style.display = "none";
+    output.textContent = "Error: " + err.message;
+    rawOutput.textContent = "Error contacting backend.";
+  });
+}
+</script>
+
+</body>
+</html>
