@@ -35,15 +35,22 @@ Frontend (client.html) --> Middleware (Ballerina) --> Backend (Spring Boot)
 
 ## Lancement de l'application
 
-1. **Démarrer le backend Spring Boot** :
+1. **Compiler et démarrer le backend Spring Boot** :
    ```bash
-   cd /Users/mloubari/Projects/Chaima/balllerina-expo
+   # Compiler le projet
+   cd /Users/Chaima/workspace/balllerina-expo
+   mvn clean package
+
+   # Démarrer l'application
    java -jar target/balllerina-expo-1.0.0.jar
    ```
 
 2. **Démarrer le middleware Ballerina** :
    ```bash
-   cd /Users/mloubari/Projects/Chaima/balllerina-expo
+   # Se placer dans le répertoire du projet
+   cd /Users/Chaima/workspace/balllerina-expo
+   
+   # Lancer le middleware
    bal run middleware.bal
    ```
 
