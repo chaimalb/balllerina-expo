@@ -66,7 +66,7 @@ Frontend (client.html) --> Middleware (Ballerina) --> Backend (Spring Boot)
 ### Requête frontend → middleware
 ```json
 {
-  "fullName": "Jean Dupont"
+  "fullName": "Chaima Loubari"
 }
 ```
 
