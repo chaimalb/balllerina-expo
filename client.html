@@ -36,9 +36,15 @@
 
 <h2>Enter your full name:</h2>
 
-<input type="text" id="fullNameInput" placeholder="e.g. Alice Doe" />
+<input type="text" id="fullNameInput" placeholder="e.g. Chaima Loubari" />
 <button onclick="sendRequest()">Send to Ballerina</button>
 <span id="loading" class="spinner" style="display:none;"></span>
+
+<h3>Request to Ballerina Middleware:</h3>
+<pre id="requestOutput">Waiting for input...</pre>
+
+<h3>Raw Request to Java Backend:</h3>
+<pre id="rawRequestOutput">Waiting...</pre>
 
 <h3>Response from Ballerina Middleware:</h3>
 <pre id="responseOutput">Waiting for input...</pre>
@@ -49,15 +55,29 @@
 <script>
 function sendRequest() {
   const fullName = document.getElementById("fullNameInput").value.trim();
+  const requestOutput = document.getElementById("requestOutput");
+  const rawRequestOutput = document.getElementById("rawRequestOutput");
   const output = document.getElementById("responseOutput");
   const rawOutput = document.getElementById("rawBackendOutput");
   const spinner = document.getElementById("loading");
 
   if (!fullName) {
+    requestOutput.textContent = "No request sent";
+    rawRequestOutput.textContent = "No request sent";
     output.textContent = "Please enter a full name.";
     rawOutput.textContent = "Waiting...";
     return;
   }
+
+  // Display request data
+  const requestData = { fullName };
+  requestOutput.textContent = JSON.stringify(requestData, null, 2);
+  
+  const rawRequestData = {
+    firstName: fullName.split(" ")[0],
+    lastName: fullName.split(" ").slice(1).join(" ") || ""
+  };
+  rawRequestOutput.textContent = JSON.stringify(rawRequestData, null, 2);
 
   output.textContent = "Sending...";
   rawOutput.textContent = "Waiting...";

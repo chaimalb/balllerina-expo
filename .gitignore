@@ -1,0 +1,50 @@
+# Java / Maven
+target/
+*.class
+*.jar
+!target/balllerina-expo-1.0.0.jar
+*.war
+*.ear
+*.logs
+*.iml
+.idea/
+.settings/
+.classpath
+.project
+.factorypath
+
+# Ballerina
+target/
+*.balx
+.ballerina/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# VS Code
+.vscode/
+*.code-workspace
+.history/
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependencies
+node_modules/
+.npm/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
